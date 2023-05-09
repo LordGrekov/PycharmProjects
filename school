@@ -1,0 +1,67 @@
+from PyQt6. QtWidgets import( QApplication, QMainWindow, QWidget, QGridLayout, QLabel, QVBoxLayout, QStackedWidget, QPushButton, 
+                             QComboBox, QLineEdit,)
+import sys
+
+
+class Main(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setFixedSize(450, 175)
+
+        stack = QStackedWidget()
+
+        widget_db = QWidget()
+        stack.addWidget(widget_db)
+
+        grid = QGridLayout()
+
+        lbl_title = QLabel("<center>Добавить ученика</center>")
+        lbl = QLabel('Добавить ФИО')
+        lbl2 = QLabel('Выбрать класс')
+        lbl3 = QLabel('Выбрать индекс класса')
+        btn = QPushButton('Выход')
+        fio = QLineEdit()
+        dob = QPushButton('Добавить')
+        dob.setFixedSize(150,25)
+        dob.setStyleSheet('QPushButton{fload: right;}')
+        clas = QComboBox()
+        
+        clas.addItem('1')
+        clas.addItem('2')
+        clas.addItem('3')
+        clas.addItem('4')
+        clas.addItem('5')
+        clas.addItem('6')
+        clas.addItem('7')
+        clas.addItem('8')
+        clas.addItem('9')
+        clas.addItem('10')
+        clas.addItem('11')
+
+        index = QComboBox()
+        index.addItem('А')
+        index.addItem('Б')
+        index.addItem('В')
+        index.addItem('Г')
+
+        grid.addWidget(lbl_title,0,0,1,0)
+        grid.addWidget(lbl,1,0)
+        grid.addWidget(lbl2,2,0)
+        grid.addWidget(lbl3,3,0)
+        grid.addWidget(btn,4,0)
+
+        grid.addWidget(fio,1,1)
+        grid.addWidget(clas,2,1)
+        grid.addWidget(index,3,1)
+        grid.addWidget(dob,4,1)
+        
+        
+        widget_db = QLabel()
+        widget_db.setLayout(grid)
+        self.setCentralWidget(widget_db)
+
+app = QApplication(sys.argv)
+bossWidow = Main()
+bossWidow.show()
+app.exec()
+        
