@@ -1,0 +1,73 @@
+from PyQt6 import QtGui
+from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QApplication, QLineEdit, QLabel,
+                            QPushButton, QGridLayout)
+from PyQt6.QtGui import QPixmap
+import sys
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        loginLabel = QLabel('Login')
+        self.loginLine = QLineEdit()
+        passLabel = QLabel('Password')
+        self.passLine = QLineEdit()
+        
+        entryBtn = QPushButton('Enrty')
+        entryBtn.clicked.connect(self.entryBtn_click)
+
+        main_grid = QGridLayout()
+
+        main_grid.addWidget(loginLabel,0,0)
+        main_grid.addWidget(self.loginLine,1,0)
+        main_grid.addWidget(passLabel,2,0)
+        main_grid.addWidget(self.passLine,3,0)
+        main_grid.addWidget(entryBtn,4,0)
+
+        widget = QWidget()
+        widget.setLayout(main_grid)
+
+        self.setCentralWidget(widget)
+
+
+    def entryBtn_click(self):
+        login = "2"
+        password = "2"
+        if self.loginLine.text() == login and self.passLine.text() == password:
+            print(1)
+        if self.loginLine.text() != login or self.passLine.text() != password:
+            copchaWindow.show()
+            
+
+class Capcha(QWidget):
+    def __init__(self):
+        super().__init__()
+        a = 'smwm'
+        capcha = QLabel("Вы ввели неправильный логин или пороль, заполните капчу")
+        capchaLine = QLineEdit()
+
+        label = QLabel(self)
+        pixmap = QPixmap('Praktika/image.png')
+        label.setPixmap(pixmap)
+
+        enterBtn = QPushButton('Entrr')
+        enterBtn.clicked.connect(self.enterBtn_click)
+        capchaGrid = QGridLayout()
+
+        capchaGrid.addWidget(capcha,0,0)
+        capchaGrid.addWidget(capchaLine,1,0)
+        capchaGrid.addWidget(label,2,0)
+
+        self.setLayout(capchaGrid)
+
+    def enterBtn_click(self):
+        print(2)
+    
+
+
+app = QApplication(sys.argv)
+bossWindow = MainWindow()
+copchaWindow = Capcha()
+bossWindow.show()
+app.exec()
