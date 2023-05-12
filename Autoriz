@@ -2,6 +2,7 @@ from PyQt6 import QtGui
 from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QApplication, QLineEdit, QLabel,
                             QPushButton, QGridLayout)
 from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import QTimer
 import sys
 
 
@@ -13,7 +14,6 @@ class MainWindow(QMainWindow):
         self.loginLine = QLineEdit()
         passLabel = QLabel('Password')
         self.passLine = QLineEdit()
-        
         entryBtn = QPushButton('Enrty')
         entryBtn.clicked.connect(self.entryBtn_click)
 
@@ -29,45 +29,80 @@ class MainWindow(QMainWindow):
         widget.setLayout(main_grid)
 
         self.setCentralWidget(widget)
+    
 
 
     def entryBtn_click(self):
-        login = "2"
-        password = "2"
-        if self.loginLine.text() == login and self.passLine.text() == password:
-            print(1)
-        if self.loginLine.text() != login or self.passLine.text() != password:
+        self.login = "user"
+        password = "user"
+        if self.loginLine.text() == self.login and self.passLine.text() == password:
+            testWindow.show()
+        if self.loginLine.text() != self.login or self.passLine.text() != password:
             copchaWindow.show()
-            
+
 
 class Capcha(QWidget):
+    a = 'smwm'
     def __init__(self):
         super().__init__()
-        a = 'smwm'
         capcha = QLabel("Вы ввели неправильный логин или пороль, заполните капчу")
-        capchaLine = QLineEdit()
+        self.capchaLine = QLineEdit()
 
         label = QLabel(self)
-        pixmap = QPixmap('Praktika/image.png')
+        pixmap = QPixmap('image.png')
         label.setPixmap(pixmap)
+        
+        self.lblTim = QLabel("")
 
-        enterBtn = QPushButton('Entrr')
-        enterBtn.clicked.connect(self.enterBtn_click)
+        self.capchaBtn = QPushButton('Ok')
+        self.capchaBtn.clicked.connect(self.capchaBtn_click)
         capchaGrid = QGridLayout()
 
         capchaGrid.addWidget(capcha,0,0)
-        capchaGrid.addWidget(capchaLine,1,0)
+        capchaGrid.addWidget(self.capchaLine,1,0)
         capchaGrid.addWidget(label,2,0)
+        capchaGrid.addWidget(self.lblTim,3,0)
+        capchaGrid.addWidget(self.capchaBtn,4,0)
 
         self.setLayout(capchaGrid)
 
-    def enterBtn_click(self):
-        print(2)
-    
+    def capchaBtn_click(self):
+        if self.capchaLine.text() == 'smwm':
+            copchaWindow.close()
+        else:
+            self.timer = QTimer()
+            self.timer.setInterval(1000) # 1000 милисек через каждые 1000 милесек запускается tim
+            self.timer.timeout.connect(self.tim) # указываем что запускается tim
+            self.startTim()
+            self.capchaBtn.setEnabled(False)
 
+
+    def tim(self):
+        self.counter -= 1
+        self.lblTim.setText(f'осталось {self.counter}')
+        if self.counter == 0:
+            self.lblTim.setText('')
+            self.timer.stop()
+            self.capchaBtn.setEnabled(True)
+    
+    def startTim(self):
+        self.counter = 10
+        self.timer.start()
+
+
+
+class Test(QWidget):
+    def __init__(self):
+        super().__init__()
+        userLabel = QLabel('здраствуйте')
+        #userLabel.setText(self.log)
+        testGrid = QGridLayout()
+        testGrid.addWidget(userLabel,0,0)
+        self.setLayout(testGrid)
 
 app = QApplication(sys.argv)
 bossWindow = MainWindow()
 copchaWindow = Capcha()
+testWindow = Test()
 bossWindow.show()
 app.exec()
